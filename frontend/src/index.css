@@ -1,0 +1,47 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+  background: #F4F5F7;
+  color: #172B4D;
+  margin: 0;
+}
+header { background: #1F4B3F; color: #fff; padding: 1.5rem 2rem; }
+header h1 { margin: 0 0 .3rem; }
+header p { margin: 0; opacity: .85; }
+nav.tabs {
+  display: flex; gap: .3rem; background: #fff; border-bottom: 1px solid #DFE1E6;
+  padding: 0 1.4rem; overflow-x: auto;
+}
+nav.tabs .tab {
+  border: none; background: none; padding: .9rem 1rem; font-size: .87rem; font-weight: 600;
+  color: #5E6C84; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap;
+}
+nav.tabs .tab.active { color: #1F4B3F; border-bottom-color: #1F4B3F; }
+.alert {
+  background: #FFEBE6; color: #BF2600; padding: .8rem 1.4rem; font-size: .87rem; border-bottom: 1px solid #FFBDAD;
+}
+main { max-width: 1000px; margin: 0 auto; padding: 1.5rem 1.4rem 3rem; }
+.panel {
+  background: #fff; border: 1px solid #DFE1E6; border-radius: 8px;
+  padding: 1.2rem 1.4rem; margin-bottom: 1.5rem;
+}
+.panel h2 { font-size: 1rem; margin: 0 0 1rem; }
+form { display: flex; gap: .6rem; flex-wrap: wrap; }
+form input, form select {
+  flex: 1; min-width: 140px; padding: .55rem .7rem;
+  border: 1px solid #DFE1E6; border-radius: 5px; font-size: .87rem;
+}
+form button {
+  background: #1F4B3F; color: #fff; border: none; padding: .6rem 1.2rem;
+  border-radius: 5px; cursor: pointer; font-weight: 600;
+}
+.filtro { display: flex; align-items: center; gap: .6rem; margin-bottom: 1rem; font-size: .85rem; }
+.filtro select { padding: .4rem .6rem; border: 1px solid #DFE1E6; border-radius: 5px; }
+.filtro button { background: #1F4B3F; color: #fff; border: none; padding: .4rem .9rem; border-radius: 5px; cursor: pointer; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: .6rem .5rem; border-bottom: 1px solid #EEE; font-size: .85rem; }
+th { color: #5E6C84; text-transform: uppercase; font-size: .68rem; letter-spacing: .04em; }
+button.action { border: none; background: none; cursor: pointer; font-size: .82rem; }
+button.action.excluir { color: #DE350B; }
+td.ok { color: #00875A; font-weight: 700; }
+td.bad { color: #DE350B; font-weight: 700; }

@@ -1,0 +1,25 @@
+version: "3.8"
+
+# Sobe o banco PostgreSQL do Sistema de Gestão Escolar.
+#
+# Uso:
+#   docker compose up -d       -> sobe o banco
+#   docker compose down        -> derruba o banco
+#   docker compose down -v     -> derruba e apaga os dados (reset total)
+
+services:
+  db-escola:
+    image: postgres:16-alpine
+    container_name: db-escola
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: escola_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5436:5432"
+    volumes:
+      - db_escola_data:/var/lib/postgresql/data
+
+volumes:
+  db_escola_data:
