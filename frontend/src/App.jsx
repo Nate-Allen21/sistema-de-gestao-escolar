@@ -146,6 +146,13 @@ export default function App() {
 
   const [alunoBoletim, setAlunoBoletim] = useState('');
   const [boletim, setBoletim] = useState([]);
+  const indicadores = [
+    { label: 'Turmas', valor: turmas.length, descricao: 'cadastradas' },
+    { label: 'Professores', valor: professores.length, descricao: 'ativos' },
+    { label: 'Disciplinas', valor: disciplinas.length, descricao: 'disponíveis' },
+    { label: 'Alunos', valor: alunos.length, descricao: filtroTurma ? 'no filtro atual' : 'matriculados' },
+  ];
+
   async function handleVerBoletim() {
     if (!alunoBoletim) return;
     setBoletim(await buscarBoletim(alunoBoletim));
@@ -159,9 +166,26 @@ export default function App() {
   return (
     <div className="app">
       <header>
-        <h1>🏫 Sistema de Gestão Escolar</h1>
-        <p>Turmas, professores, disciplinas, alunos e notas</p>
+        <div className="header-copy">
+          <span className="eyebrow">UC9 · Manutenção escolar</span>
+          <h1>Sistema de Gestão Escolar</h1>
+          <p>Turmas, professores, disciplinas, alunos e notas em uma única operação.</p>
+        </div>
+        <div className="header-badge">
+          <span>Atualizado</span>
+          <strong>Fluxo administrativo</strong>
+        </div>
       </header>
+
+      <section className="overview">
+        {indicadores.map((item) => (
+          <article key={item.label} className="overview-card">
+            <span>{item.label}</span>
+            <strong>{item.valor}</strong>
+            <small>{item.descricao}</small>
+          </article>
+        ))}
+      </section>
 
       <nav className="tabs">
         {TABS.map((item) => (
