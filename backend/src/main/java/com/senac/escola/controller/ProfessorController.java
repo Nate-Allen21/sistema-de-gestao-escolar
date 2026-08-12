@@ -1,7 +1,11 @@
 package com.senac.escola.controller;
 
 import com.senac.escola.model.Professor;
+import com.senac.escola.repository.DisciplinaRepository;
 import com.senac.escola.repository.ProfessorRepository;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,9 +15,11 @@ import java.util.List;
 public class ProfessorController {
 
     private final ProfessorRepository repository;
+    private final DisciplinaRepository disciplinaRepository;
 
-    public ProfessorController(ProfessorRepository repository) {
+    public ProfessorController(ProfessorRepository repository, DisciplinaRepository disciplinaRepository) {
         this.repository = repository;
+        this.disciplinaRepository = disciplinaRepository;
     }
 
     @GetMapping
@@ -26,12 +32,23 @@ public class ProfessorController {
         return repository.save(professor);
     }
 
-    // Remove um professor.
-    // OBS: não verifica se o professor tem disciplinas vinculadas antes de excluir.
-    // Se tiver, o banco recusa a exclusão (violação de chave estrangeira) e o erro
-    // sobe cru para o navegador, sem nenhuma mensagem amigável.
     @DeleteMapping("/{id}")
-    public void remover(@PathVariable Long id) {
-        repository.deleteById(id);
+    public ResponseEntity<String> remover(@PathVariable Long id) {
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!disciplinaRepository.findAllByProfessorId(id).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Não é possível excluir um professor que possui disciplinas vinculadas.");
+        }
+
+        try {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Não é possível excluir este professor porque ele possui dados vinculados.");
+        }
     }
 }
