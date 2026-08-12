@@ -67,8 +67,7 @@ public class NotaController {
             List<Nota> notasDaDisciplina = entry.getValue();
 
             double soma = notasDaDisciplina.stream().mapToDouble(Nota::getValor).sum();
-            // OBS: divide sempre por 4, mesmo que o aluno ainda não tenha as 4 notas lançadas.
-            double media = soma / 4;
+            double media = notasDaDisciplina.isEmpty() ? 0.0 : soma / notasDaDisciplina.size();
 
             BoletimItemDTO item = new BoletimItemDTO();
             item.disciplinaNome = disciplina.getNome();
@@ -76,9 +75,7 @@ public class NotaController {
                     .map(n -> new BoletimItemDTO.NotaResumo(n.getBimestre(), n.getValor()))
                     .collect(Collectors.toList());
             item.media = Math.round(media * 100.0) / 100.0;
-            // OBS: deveria ser média >= 6.0 para aprovar; um aluno com média exata 6.0 é
-            // incorretamente marcado como reprovado.
-            item.situacao = media > 6.0 ? "Aprovado" : "Reprovado";
+            item.situacao = media >= 6.0 ? "Aprovado" : "Reprovado";
 
             resultado.add(item);
         }
