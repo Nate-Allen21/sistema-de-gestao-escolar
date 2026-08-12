@@ -35,6 +35,9 @@ export async function criarTurma(turma) {
     body: JSON.stringify(turma),
   });
 }
+export async function excluirTurma(id) {
+  return requestJson(`${BASE}/turmas/${id}`, { method: 'DELETE' });
+}
 
 export async function listarProfessores() {
   const res = await fetch(`${BASE}/professores`);

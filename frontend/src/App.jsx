@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {
   listarTurmas,
   criarTurma,
+  excluirTurma,
   listarProfessores,
   criarProfessor,
   excluirProfessor,
@@ -56,6 +57,18 @@ export default function App() {
     setFormTurma({ nome: '', anoLetivo: '', capacidade: '' });
     mostrarMensagem('sucesso', 'Turma cadastrada com sucesso.');
     carregarTudo();
+  }
+
+  async function handleExcluirTurma(id) {
+    if (!confirm('Excluir esta turma?')) return;
+
+    try {
+      await excluirTurma(id);
+      mostrarMensagem('sucesso', 'Turma excluída com sucesso.');
+      carregarTudo();
+    } catch (error) {
+      mostrarMensagem('erro', error.message || 'Não foi possível excluir a turma.');
+    }
   }
 
   // ---------- PROFESSORES ----------
@@ -204,6 +217,7 @@ export default function App() {
                     <th>Nome</th>
                     <th>Ano letivo</th>
                     <th>Capacidade</th>
+                    <th>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -212,6 +226,11 @@ export default function App() {
                       <td>{turma.nome}</td>
                       <td>{turma.anoLetivo}</td>
                       <td>{turma.capacidade}</td>
+                      <td>
+                        <button className="action excluir" onClick={() => handleExcluirTurma(turma.id)}>
+                          Excluir
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
